@@ -1,12 +1,11 @@
 import express from 'express';
 import cors from 'cors';
-import {isAuth} from './auth.js';
-import {protectedRoutes} from './routes.js';
-
+import { isAuth } from './auth.js';
+import { protectedRoutes } from './routes.js';
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(isAuth({authRequired: true}));
+const authCallback = isAuth({ authRequired: true });
+app.use(authCallback);
 protectedRoutes(app);
-
 export default app;

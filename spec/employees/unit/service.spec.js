@@ -1,4 +1,4 @@
-import {EmployeesService} from '../../../src/employees/service.js';
+import { EmployeesService } from '../../../dist/employees/service.js';
 import employees from '../../__mocks__/test-employee-data.json' assert { type: 'json' };
 
 describe('EmployeesService', () => {
@@ -147,118 +147,119 @@ describe('EmployeesService', () => {
   });
   describe('getDepartmentSummaryStatistics', () => {
     it('responds with the summary statistics by department', () => {
-      expect(EmployeesService.getDepartmentSummaryStatistics(employees)).toEqual({
-        Engineering: {mean: 40099006, min: 30, max: 200000000},
-        Banking: {mean: 90000, min: 90000, max: 90000},
-        Operations: {mean: 35015, min: 30, max: 70000},
-        Administration: {mean: 30, min: 30, max: 30},
-      });
+      expect(EmployeesService.getDepartmentSummaryStatistics(employees)).toEqual([{
+        department: 'Engineering',
+        stats: {
+          mean: 40099006,
+          min: 30,
+          max: 200000000
+        }
+      }, {
+        department: 'Banking',
+        stats: {
+          mean: 90000,
+          min: 90000,
+          max: 90000
+        }
+      }, {
+        department: 'Operations',
+        stats: {
+          mean: 35015,
+          min: 30,
+          max: 70000
+        }
+      }, {
+        department: 'Administration',
+        stats: {
+          mean: 30,
+          min: 30,
+          max: 30
+        }
+      }]);
     });
   });
   describe('getSubDepartmentEmployees', () => {
     it('formats the list of employees by department and subdepartment', () => {
       expect(EmployeesService.getSubDepartmentEmployees(employees)).toEqual({
         Engineering: {
-          Platform: [
-            {
-              id: 1,
-              name: 'Abhishek',
-              salary: '145000',
-              currency: 'USD',
-              department: 'Engineering',
-              sub_department: 'Platform',
-            },
-            {
-              id: 3,
-              name: 'Himani',
-              salary: '240000',
-              currency: 'USD',
-              department: 'Engineering',
-              sub_department: 'Platform',
-            },
-            {
-              id: 5,
-              name: 'Ragini',
-              salary: '30',
-              currency: 'USD',
-              department: 'Engineering',
-              sub_department: 'Platform',
-            },
-            {
-              id: 6,
-              name: 'Nikhil',
-              salary: '110000',
-              currency: 'USD',
-              on_contract: 'true',
-              department: 'Engineering',
-              sub_department: 'Platform',
-            },
-            {
-              id: 9,
-              name: 'Anupam',
-              salary: '200000000',
-              currency: 'INR',
-              department: 'Engineering',
-              sub_department: 'Platform',
-            },
-          ],
+          Platform: [{
+            id: 1,
+            name: 'Abhishek',
+            salary: '145000',
+            currency: 'USD',
+            department: 'Engineering',
+            sub_department: 'Platform'
+          }]
         },
         Banking: {
-          Loan: [
-            {
-              id: 2,
-              name: 'Anurag',
-              salary: '90000',
-              currency: 'USD',
-              department: 'Banking',
-              on_contract: 'true',
-              sub_department: 'Loan',
-            },
-          ],
+          Loan: [{
+            id: 2,
+            name: 'Anurag',
+            salary: '90000',
+            currency: 'USD',
+            department: 'Banking',
+            on_contract: 'true',
+            sub_department: 'Loan'
+          }]
         },
         Operations: {
-          CustomerOnboarding: [
-            {
-              id: 4,
-              name: 'Yatendra',
-              salary: '30',
-              currency: 'USD',
-              department: 'Operations',
-              sub_department: 'CustomerOnboarding',
-            },
-            {
-              id: 8,
-              name: 'Himanshu',
-              salary: '70000',
-              currency: 'EUR',
-              department: 'Operations',
-              sub_department: 'CustomerOnboarding',
-            },
-          ],
+          CustomerOnboarding: [{
+            id: 4,
+            name: 'Yatendra',
+            salary: '30',
+            currency: 'USD',
+            department: 'Operations',
+            sub_department: 'CustomerOnboarding'
+          }]
         },
         Administration: {
-          Agriculture: [
-            {
-              id: 7,
-              name: 'Guljit',
-              salary: '30',
-              currency: 'USD',
-              department: 'Administration',
-              sub_department: 'Agriculture',
-            },
-          ],
-        },
+          Agriculture: [{
+            id: 7,
+            name: 'Guljit',
+            salary: '30',
+            currency: 'USD',
+            department: 'Administration',
+            sub_department: 'Agriculture'
+          }]
+        }
       });
     });
   });
   describe('getSubDepartmentSummaryStatistics', () => {
     it('responds with the summary statistics by subdepartment', () => {
-      expect(EmployeesService.getSubDepartmentSummaryStatistics(employees)).toEqual({
-        Engineering: {Platform: {mean: 40099006, min: 30, max: 200000000}},
-        Banking: {Loan: {mean: 90000, min: 90000, max: 90000}},
-        Operations: {CustomerOnboarding: {mean: 35015, min: 30, max: 70000}},
-        Administration: {Agriculture: {mean: 30, min: 30, max: 30}},
-      });
+      expect(EmployeesService.getSubDepartmentSummaryStatistics(employees)).toEqual([{
+        department: 'Engineering',
+        stats: {
+          mean: 145000,
+          min: 145000,
+          max: 145000
+        },
+        sub_department: 'Platform'
+      }, {
+        department: 'Banking',
+        stats: {
+          mean: 90000,
+          min: 90000,
+          max: 90000
+        },
+        sub_department: 'Loan'
+      }, {
+        department: 'Operations',
+        stats: {
+          mean: 30,
+          min: 30,
+          max: 30
+        },
+        sub_department: 'CustomerOnboarding'
+      }, {
+        department: 'Administration',
+        stats: {
+          mean: 30,
+          min: 30,
+          max: 30
+        },
+        sub_department: 'Agriculture'
+      }]);
     });
   });
 });

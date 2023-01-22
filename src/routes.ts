@@ -1,7 +1,7 @@
 import {EmployeesController} from './employees/controller.js';
+import { Application } from 'express';
 
-
-export const protectedRoutes = (app) => {
+export const protectedRoutes = (app: Application): void => {
   // Add a new employee
   app.route('/employees').post(EmployeesController.addEmployee);
   // Get all employees

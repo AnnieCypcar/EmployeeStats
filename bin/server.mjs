@@ -1,4 +1,4 @@
-import app from '../src/index.js'
+import app from '../dist/index.js'
 const PORT = 4000;
 
 let server = null;
