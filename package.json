@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "test": "./node_modules/jasmine/bin/jasmine.js --config=./jasmine.json",
-        "start": "node -e 'import(\"./bin/server.mjs\").then((a) => a.Server.start());'",
+        "start": "tsc && node -e 'import(\"./bin/server.mjs\").then((a) => a.Server.start());'",
         "start-dev": "tsc -w && nodemon --exec 'npm run start'",
         "lint": "eslint '**/**/*.js' --quiet",
         "lint:fix": "npm run lint -- --fix"
