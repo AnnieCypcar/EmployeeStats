@@ -23,7 +23,8 @@ export const EmployeeModel = {
         }
     },
     getAllEmployees: (onContract: boolean = false): Employee[] => {
-        const isContractor = onContract ? 1 : 0;
+        // only show contractors when true, otherwise return all employees
+        const whereClause = onContract ? 'WHERE e.on_contract = 1' : '';
         try {
             const stmt = db.prepare(`
                 SELECT e.id, e.name, e.salary, e.sub_department_name as sub_department, 
@@ -33,9 +34,8 @@ export const EmployeeModel = {
                     INNER JOIN sub_department as sd
                         on e.sub_department_name = sd.name
                     INNER JOIN department as d
-                        ON  d.name = sd.department_name
-                        WHERE e.on_contract = ?`);
-            return stmt.all(isContractor);
+                        ON  d.name = sd.department_name ${whereClause}`);
+            return stmt.all();
         } catch (e) {
             throw new Error(`${e}`);
         }

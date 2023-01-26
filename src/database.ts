@@ -22,31 +22,37 @@ const insertMany = db.transaction((items, callback) => {
     }
 });
 
-insertMany([
-    { name: 'Engineering' },
-    { name: 'Banking' },
-    { name: 'Operations' },
-    { name: 'Administration' },
-], insertDept);
+(() => {
+    // if retrieving employees fails, run the seed scripts
+    const employees = db.prepare('SELECT * FROM employee').all();
+    if (!employees.length) {
+        insertMany([
+            { name: 'Engineering' },
+            { name: 'Banking' },
+            { name: 'Operations' },
+            { name: 'Administration' },
+        ], insertDept);
 
-insertMany([
-    { name: 'Platform', department_name: 'Engineering' },
-    { name: 'Loan', department_name: 'Banking' },
-    { name: 'CustomerOnboarding', department_name: 'Operations' },
-    { name: 'Agriculture', department_name: 'Administration' },
-], insertSubDept);
+        insertMany([
+            { name: 'Platform', department_name: 'Engineering' },
+            { name: 'Loan', department_name: 'Banking' },
+            { name: 'CustomerOnboarding', department_name: 'Operations' },
+            { name: 'Agriculture', department_name: 'Administration' },
+        ], insertSubDept);
 
-insertMany([
-    { name: 'Abhishek', salary: 145000, sub_department_name: 'Platform', currency: 'USD', on_contract: 0 },
-    { name: 'Anurag', salary: 90000, sub_department_name: 'Loan', currency: 'USD', on_contract: 1 },
-    { name: 'Himani', salary: 240000, sub_department_name: 'Platform', currency: 'USD', on_contract: 0 },
-    { name: 'Yatendra', salary: 30, sub_department_name: 'CustomerOnboarding', currency: 'USD', on_contract: 0 },
-    { name: 'Ragini', salary: 30, sub_department_name: 'Platform', currency: 'USD', on_contract: 0 },
-    { name: 'Nikhil', salary: 110000, sub_department_name: 'Platform', currency: 'USD', on_contract: 1 },
-    { name: 'Guljit', salary: 30, sub_department_name: 'Agriculture', currency: 'USD', on_contract: 0 },
-    { name: 'Himanshu', salary: 70000, sub_department_name: 'CustomerOnboarding', currency: 'EUR', on_contract: 0 },
-    { name: 'Anupam', salary: 200000000, sub_department_name: 'Platform', currency: 'INR', on_contract: 0 },
-], insertEmployees);
+        insertMany([
+            { name: 'Abhishek', salary: 145000, sub_department_name: 'Platform', currency: 'USD', on_contract: 0 },
+            { name: 'Anurag', salary: 90000, sub_department_name: 'Loan', currency: 'USD', on_contract: 1 },
+            { name: 'Himani', salary: 240000, sub_department_name: 'Platform', currency: 'USD', on_contract: 0 },
+            { name: 'Yatendra', salary: 30, sub_department_name: 'CustomerOnboarding', currency: 'USD', on_contract: 0 },
+            { name: 'Ragini', salary: 30, sub_department_name: 'Platform', currency: 'USD', on_contract: 0 },
+            { name: 'Nikhil', salary: 110000, sub_department_name: 'Platform', currency: 'USD', on_contract: 1 },
+            { name: 'Guljit', salary: 30, sub_department_name: 'Agriculture', currency: 'USD', on_contract: 0 },
+            { name: 'Himanshu', salary: 70000, sub_department_name: 'CustomerOnboarding', currency: 'EUR', on_contract: 0 },
+            { name: 'Anupam', salary: 200000000, sub_department_name: 'Platform', currency: 'INR', on_contract: 0 },
+        ], insertEmployees);
+    }
+})();
 
 export const query = (sql: string, params: {}) => {
     return db.prepare(sql).all(params);
