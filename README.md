@@ -3,11 +3,12 @@
 The EmployeeStats service provides an interface for updating employee data and retrieving the mean, min and max salaries for all employees.
 
 ### Local Develop
-After installing nodejs, install the dependency packages and start the server. The server will recompile and restart with every file change while in the development mode.
+After installing nodejs, install the dependency packages, global typescript, and start the server. The server will recompile and restart with every file change while in the development mode.
 
 1. [Install nodejs LTS (v16.17.0)](https://nodejs.org/en/download/) or upgrade your current version
 2. npm install
-3. npm run start-dev
+3. npm install typescript -g
+4. npm run start-dev
 
 
 ### Testing
