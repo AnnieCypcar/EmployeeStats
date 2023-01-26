@@ -22,7 +22,7 @@ export const EmployeeModel = {
             throw new Error(`${e}`);
         }
     },
-    getAllEmployees: (onContract: boolean = false): Employee[] => {
+    getAllEmployees: (onContract = false): Employee[] => {
         // only show contractors when true, otherwise return all employees
         const whereClause = onContract ? 'WHERE e.on_contract = 1' : '';
         try {

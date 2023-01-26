@@ -1,7 +1,8 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+
 export const isAuth = (options: { authRequired: boolean }) => {
   const { authRequired } = options;
-  return (req: Request, res: Response, next: () => {}) => {
+  return (req: Request, res: Response, next: NextFunction) => {
     const auth = req.headers.authorization;
     if (auth === 'password' || !authRequired) {
       next();

@@ -37,7 +37,7 @@ export const EmployeesService = {
     }
     return missing;
   },
-  getSummaryStatistics: (employees: Employee[], onContract: boolean = false): SummaryStats => {
+  getSummaryStatistics: (employees: Employee[], onContract = false): SummaryStats => {
     let min = Infinity;
     let max = 0;
     let total = 0;
@@ -81,7 +81,7 @@ export const EmployeesService = {
   getSubDepartmentEmployees: (employees: Employee[]): SubdepartmentEmployees => {
     const s: SubdepartmentEmployees = {};
     for (const e of employees) {
-      let { sub_department, department } = e;
+      const { sub_department, department } = e;
       if (!(department in s)) {
         s[department] = { [sub_department]: [e] };
       }

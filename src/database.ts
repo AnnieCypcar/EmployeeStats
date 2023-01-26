@@ -54,6 +54,6 @@ const insertMany = db.transaction((items, callback) => {
     }
 })();
 
-export const query = (sql: string, params: {}) => {
-    return db.prepare(sql).all(params);
+export const query = (sql: string, params: []) => {
+    return db.prepare(sql).all(...params);
 }

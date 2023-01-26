@@ -33,7 +33,7 @@ export const EmployeesController = {
     }
   },
   getSummaryStatistics: async (req: Request, res: Response): Promise<void> => {
-    let { onContract } = req.query;
+    const { onContract } = req.query;
     const allEmployees: Employee[] = EmployeeModel.getAllEmployees(Boolean(onContract));
     const stats: SummaryStats = EmployeesService.getSummaryStatistics(allEmployees, Boolean(onContract));
     res.status(200).send(stats);

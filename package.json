@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "build:start": "tsc && npm start",
-        "lint": "eslint '**/**/*.js' --quiet",
+        "lint": "eslint '**/**/*.ts' --quiet",
         "lint:fix": "npm run lint -- --fix",
         "start": "node -e 'import(\"./bin/server.mjs\").then((a) => a.Server.start());'",
         "start-dev": "concurrently --kill-others --names \"BUILD,RUN\" -c \"bgBlue.bold,bgMagenta.bold\" \"tsc -w\" \"nodemon --exec npm start\"",
