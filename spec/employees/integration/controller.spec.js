@@ -32,12 +32,16 @@ describe('employees', () => {
         .expect(400);
     });
     it('POST creates a new employee for valid input', async () => {
-      newEmployee['sub_department'] = 'Core';
+      newEmployee['sub_department'] = 'Platform';
       await supertest(app)
         .post(`/employees`)
         .set('Authorization', 'password')
         .send(newEmployee)
-        .expect(201);
+        .expect(201)
+        .then((response) => {
+          expect(response.created).toBe(true);
+          expect(response.text).toEqual('Employee with employeeId 10 created');
+        });
       await supertest(app)
         .get(`/employees`)
         .set('Authorization', 'password')

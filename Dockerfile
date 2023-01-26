@@ -12,4 +12,4 @@ EXPOSE 4000
 
 COPY . .
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "build:start"]

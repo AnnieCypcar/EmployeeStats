@@ -1,19 +1,15 @@
 import { EmployeesService } from './service.js';
-import { Employee } from './types.js';
-/* eslint-disable-next-line */
-// @ts-ignore
-import database from '../../data.json' assert { type: 'json' };
-let allEmployees: Employee[] = database;
+import { DepartmentStats, Employee, SubDepartmentStats, SummaryStats } from './types.js';
 import { Request, Response } from 'express';
+import { EmployeeModel } from './model.js';
 
 
 export const EmployeesController = {
   addEmployee: async (req: Request, res: Response): Promise<void> => {
     const employee = req.body;
     if (EmployeesService.isValidEmployee(employee)) {
-      employee['id'] = allEmployees.length + 1;
-      allEmployees.push(employee);
-      res.status(201).send(`Employee with employeeId ${employee.id} created`);
+      const newEmployeeRowId = EmployeeModel.createEmployee(employee);
+      res.status(201).send(`Employee with employeeId ${newEmployeeRowId} created`);
     } else {
       const missingParams = EmployeesService.getMissingParams(employee);
       let params = '';
@@ -24,19 +20,13 @@ export const EmployeesController = {
     }
   },
   getEmployees: async (req: Request, res: Response): Promise<void> => {
-    res.status(200).send(allEmployees);
+    const all = EmployeeModel.getAllEmployees();
+    res.status(200).send(all);
   },
   deleteEmployee: async (req: Request, res: Response): Promise<void> => {
     const { employeeId } = req.params;
-    let found = false;
-    allEmployees = allEmployees.filter((e) => {
-      if (e.id === Number(employeeId)) {
-        found = true;
-        return false;
-      }
-      return true;
-    });
-    if (found) {
+    const deletedEmpl = EmployeeModel.deleteEmployee(Number(employeeId));
+    if (deletedEmpl) {
       res.status(200).send(`Employee with employeeId ${employeeId} deleted`);
     } else {
       res.status(404).send(`Employee with employeeId ${employeeId} not found`);
@@ -44,15 +34,18 @@ export const EmployeesController = {
   },
   getSummaryStatistics: async (req: Request, res: Response): Promise<void> => {
     let { onContract } = req.query;
-    const stats = EmployeesService.getSummaryStatistics(allEmployees, onContract === 'true');
+    const allEmployees: Employee[] = EmployeeModel.getAllEmployees(Boolean(onContract));
+    const stats: SummaryStats = EmployeesService.getSummaryStatistics(allEmployees, Boolean(onContract));
     res.status(200).send(stats);
   },
   getDepartmentSummaryStatistics: async (req: Request, res: Response): Promise<void> => {
-    const stats = EmployeesService.getDepartmentSummaryStatistics(allEmployees);
+    const allEmployees: Employee[] = EmployeeModel.getAllEmployees();
+    const stats: DepartmentStats[] = EmployeesService.getDepartmentSummaryStatistics(allEmployees);
     res.status(200).send(stats);
   },
   getSubDepartmentSummaryStatistics: async (req: Request, res: Response): Promise<void> => {
-    const stats = EmployeesService.getSubDepartmentSummaryStatistics(allEmployees);
+    const allEmployees: Employee[] = EmployeeModel.getAllEmployees();
+    const stats: SubDepartmentStats[] = EmployeesService.getSubDepartmentSummaryStatistics(allEmployees);
     res.status(200).send(stats);
   },
 };
